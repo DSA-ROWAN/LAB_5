@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Scanner;
 
 import List.*;
 
@@ -35,17 +36,84 @@ public class Knights_Tour {
 	
 	static int[][] board = null;
 	public static void main(String[] args) throws InterruptedException, IOException {
-		int numRows = 4;
-		int numCols = 7;
 		
-		for(int i = 0; i < numRows; i++){
-			for(int j = 0; j < numCols; j++){
-				board = new int[numRows][numCols];
-				if(knightsTour(i,j,1) == 1){
-					System.out.print("No Solution");
+		System.out.println("  (\\=,   	Welcome to Knights Tour.\r\n" + 
+					       " //  .\\  	Please enter the number of Rows and Columns\r\n" + 
+					       "(( \\_  \\ 	followed by the starting row and column\r\n" + 
+					       " ))  `\\_)	\r\n" + 
+					       "(/     \\ 	Entering a -1 for either the starting row or column\r\n" + 
+					       " | _.-'| 	will generate all the possible knights tours for\r\n" + 
+					       "  )___(  	the specified row/column dimensions\r\n" + 
+					       " (=====) 	\r\n" + 
+					       " }====={ 	\r\n" + 
+					       "(_______)	\r\n" + 
+					       "");
+		int numRows, numCols, startRow, startCol;
+		
+		try{
+			Scanner keyboard = new Scanner(System.in);
+			
+			System.out.print("Enter Number of Rows: ");
+			numRows = keyboard.nextInt();
+			
+			System.out.print("Enter Number of Columns: ");
+			numCols = keyboard.nextInt();
+			
+			System.out.print("Enter Starting Row: ");
+			startRow = keyboard.nextInt();
+			
+			System.out.print("Enter Starting Column: ");
+			startCol = keyboard.nextInt();
+			System.out.println();
+		}catch(Exception e){
+			System.out.println();		
+			System.out.println("Input Error: Bad Row or Column Input");
+			return;
+		}
+
+		
+		
+		if(numRows > 0 && numCols > 0){
+			if(startRow == -1 || startCol == -1){
+				for(int i = 0; i < numRows; i++){
+					for(int j = 0; j < numCols; j++){
+						board = new int[numRows][numCols];
+						if(knightsTour(i,j,1) == 1){
+							if(numRows >= 6 && numCols >= 6){
+								if(numRows%2 == 0 || numCols%2 == 0){
+									System.out.print("Error");
+								}else{
+									System.out.print("No Solution");
+								}
+							}else{
+								System.out.print("No Solution");
+							}
+						}
+						System.out.println(" FOR start of " + i + ", " + j);
+					}
 				}
-				System.out.println(" FOR start of " + i + ", " + j);
+			}else if((startRow > -1 && startRow < numRows) && (startCol < numCols && startCol > -1)){
+				board = new int[numRows][numCols];
+				if(knightsTour(startRow,startCol,1) == 1){
+					if(numRows >= 6 && numCols >= 6){
+						if(numRows%2 == 0 || numCols%2 == 0){
+							System.out.print("Error");
+						}else{
+							System.out.print("No Solution");
+						}
+					}else{
+						System.out.print("No Solution");
+					}
+					
+				}
+				System.out.println(" FOR start of " + startRow + ", " + startCol);			
+			}else{
+				System.out.println();		
+				System.out.println("Input Error: Bad Starting Row or Column");
 			}
+		}else{
+			System.out.println();		
+			System.out.println("Input Error: Bad Row or Column Size");		
 		}
 	}
 	
